@@ -1,0 +1,175 @@
+<section id="actions" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <a
+          href="#"
+          class="btn btn-primary btn-block"
+          data-toggle="modal"
+          data-target="#addClientModal  "
+        >
+          <i class="fas fa-plus"></i>Add Client</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+<!-- edicion clients -->
+<section id="clients">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card-header">
+          <h4>Client List</h4>
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <th>#</th>
+              <th>Name</th>
+              <th>Saldo</th>
+              <th>Edit</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of clients; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ client.name }} {{ client.lastName }}</td>
+                <td>{{ client.saldo | currency: "MXN":"$" }}</td>
+                <td>
+                  <a
+                    routerLink="edit/client/{{ client.id }}"
+                    class="btn btn-secundary"
+                  >
+                    <i class="fas fa-angle-double-right">Editar</i></a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Side cards -->
+      <div class="col-md-3">
+        <div class="card text-center bg-danger text-white mb-3">
+          <div class="card-body">
+            <h3>Total Saldo</h3>
+            <h4 class="display-4">
+              {{ getTotalSaldo() | currency: "MXN":"$" }}
+            </h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card text-center bg-danger text-white mb-3">
+          <div class="card-body">
+            <h3>Total Clients</h3>
+            <h4 class="display-4">
+              <i class="fas fa-user"></i>
+              {{ clients?.length }}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Window -->
+<div class="modal fade" id="addClientModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title">
+          Add client
+          <button class="close" data-dismiss="modal" #close>
+            <span>&times;</span>
+          </button>
+        </h5>
+      </div>
+
+      <flash-messages></flash-messages>
+
+      <form #clientForm="ngForm" (ngSubmit)="addClient(clientForm)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              name="name"
+              class="form-control"
+              #name="ngModel"
+              [(ngModel)]="client.name"
+              [ngClass]="{ 'is-invalid': name.errors && name.touched }"
+              required
+              minlength="2"
+            />
+            <div [hidden]="!name.errors?.required" class="invalid-feedback">
+              Required Name
+            </div>
+            <div [hidden]="!name.errors?.minlength" class="invalid-feedback">
+              Should contain at least 2 characters
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              class="form-control"
+              #lastName="ngModel"
+              [(ngModel)]="client.lastName"
+              [ngClass]="{ 'is-invalid': lastName.errors && lastName.touched }"
+              required
+              minlength="2"
+            />
+          </div>
+          <div [hidden]="!lastName.errors?.required" class="invalid-feedback">
+            Required Last Name
+          </div>
+          <div [hidden]="!lastName.errors?.minlength" class="invalid-feedback">
+            Should contain at least 2 characters
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              #email="ngModel"
+              [(ngModel)]="client.email"
+              [ngClass]="{ 'is-invalid': email.errors && email.touched }"
+              pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              required
+            />
+          </div>
+          <div [hidden]="!email.errors?.required" class="invalid-feedback">
+            Required Email
+          </div>
+          <div [hidden]="!email.errors?.pattern" class="invalid-feedback">
+            Invalid Email
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="saldo">Saldo</label>
+            <input type="number" name="saldo" class="form-control" #saldo='ngModel' [(ngModel)]='client.saldo'
+            [ngClass]="{'is-invalid':saldo.errors&& saldo.touched}" required  />
+          </div>
+          <div [hidden]="!saldo.errors?.required" class="invalid-feedback">
+            Required Amount
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" >Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

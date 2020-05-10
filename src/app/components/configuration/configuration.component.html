@@ -1,0 +1,53 @@
+<header id="main-header" class="py-2 bg-info text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1><i class="fas fa-user"></i>Configuration</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="actions" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <a routerLink='/' class='btn btn-light btn-block'>
+        <i class="fas fa-arrow-left">Go Home</i></a>
+      </div>
+
+      <div class="col-md-3">
+        <button type='submit' (click)='save()' class='btn btn-success btn-block'>
+        <i class="fas fa-check">Save Changes</i></button>
+      </div>
+    </div>
+  </div>
+</section>
+<section id='configuration'>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <h4>Edit Configuration</h4>
+        </div>
+        <div class="card-body">
+          <fieldset class='form-grop'>
+            <legend>
+              Allow user registering
+              <div class="form-check">
+                <label class='form-check-label'>
+                  <input type="checkbox" class ='form-check-input'
+                   name='allowRegister' [(ngModel)]='allowRegister'
+                    [checked]='allowRegister'>{{allowRegister?"Yes":"No "}}
+
+                </label>
+              </div>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
